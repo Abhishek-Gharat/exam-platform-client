@@ -42,32 +42,32 @@ const UserManager=()=>{
         <SearchBar value={search} onChange={setSearch} placeholder='Search by name or email...' className='max-w-md'/>
       </div>
       {filtered.length===0?<EmptyState icon={Users} title='No users found' description='No users match your search.'/>:
-      <div className='bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden'>
+      <div className='exp-card exp-card-flat overflow-hidden'>
         <UserTable users={filtered} onViewUser={setSelectedUser}/>
       </div>}
       <Modal isOpen={!!selectedUser} onClose={()=>setSelectedUser(null)} title='User Profile' size='md'>
-        {selectedUser&&<div className='space-y-4'>
+        {selectedUser&&<div className='space-y-6'>
           <div className='flex items-center gap-4'>
-            <div className='w-16 h-16 rounded-full bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center'>
-              <span className='text-2xl font-bold text-primary-600'>{selectedUser.name?.charAt(0)}</span>
+            <div className='w-20 h-20 rounded-2xl bg-gradient-primary flex items-center justify-center shadow-lg shadow-primary-500/30 flex-shrink-0'>
+              <span className='text-3xl font-bold text-white'>{selectedUser.name?.charAt(0)}</span>
             </div>
             <div>
-              <h3 className='text-lg font-semibold'>{selectedUser.name}</h3>
-              <p className='text-sm text-gray-500'>{selectedUser.email}</p>
-              <div className='flex gap-2 mt-1'>
+              <h3 className='text-2xl font-bold text-gray-900 dark:text-white'>{selectedUser.name}</h3>
+              <p className='text-sm text-gray-600 dark:text-gray-400 mt-1'>{selectedUser.email}</p>
+              <div className='flex gap-2 mt-3'>
                 <Badge variant={selectedUser.role==='ADMIN'?'info':'default'} size='sm'>{selectedUser.role}</Badge>
-                <Badge variant={selectedUser.status==='active'?'active':'inactive'} size='sm' dot>{selectedUser.status}</Badge>
+                <Badge variant={selectedUser.status==='active'?'pass':'fail'} size='sm' dot>{selectedUser.status}</Badge>
               </div>
             </div>
           </div>
-          <div className='grid grid-cols-2 gap-4'>
-            <div className='p-4 rounded-xl bg-gray-50 dark:bg-gray-700/50'>
-              <p className='text-sm text-gray-500'>Joined</p>
-              <p className='font-medium'>{formatDate(selectedUser.joinedAt)}</p>
+          <div className='grid grid-cols-2 gap-4 p-4 rounded-xl bg-gradient-to-br from-primary-50 to-primary-100/50 dark:from-primary-950/20 dark:to-primary-900/10 border border-primary-200/50 dark:border-primary-800/50'>
+            <div>
+              <p className='text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wide'>Joined</p>
+              <p className='font-bold text-gray-900 dark:text-white mt-2'>{formatDate(selectedUser.joinedAt)}</p>
             </div>
-            <div className='p-4 rounded-xl bg-gray-50 dark:bg-gray-700/50'>
-              <p className='text-sm text-gray-500'>Total Attempts</p>
-              <p className='font-medium'>{selectedUser.totalAttempts||0}</p>
+            <div>
+              <p className='text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wide'>Total Attempts</p>
+              <p className='font-bold text-gray-900 dark:text-white mt-2'>{selectedUser.totalAttempts||0}</p>
             </div>
           </div>
         </div>}

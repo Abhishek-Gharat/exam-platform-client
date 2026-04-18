@@ -9,13 +9,21 @@ const Sidebar=({isAdmin=false})=>{
   const links=isAdmin?adminLinks:studentLinks;
   const loc=useLocation();
   return(
-    <aside className='hidden lg:flex flex-col w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 min-h-[calc(100vh-4rem)]'>
-      <nav className='flex-1 px-4 py-6 space-y-1'>
-        {links.map(({path,label,icon:Icon})=>{
+    <aside className='hidden lg:flex flex-col w-64 border-r border-gray-200 dark:border-slate-800 bg-white dark:bg-slate-900 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto shadow-lg'>
+      <nav className='flex-1 px-4 py-8 space-y-2'>
+        <p className='px-4 text-xs font-poppins font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-4'>Navigation</p>
+        {links.map(({path,label,icon:Icon},idx)=>{
           const active=loc.pathname===path;
-          return(<NavLink key={path} to={path} className={'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors '+(active?'bg-primary-50 text-primary-700 dark:bg-primary-900/20 dark:text-primary-400':'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700/50 hover:text-gray-900 dark:hover:text-gray-200')}><Icon size={20}/>{label}</NavLink>);
+          return(<NavLink key={path} to={path} style={{animationDelay:`${idx*50}ms`}} className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 animate-fade-up relative overflow-hidden group ${active?'bg-gradient-to-r from-primary-600 to-primary-500 text-white shadow-lg':'text-gray-700 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-slate-800'}`}>
+            {active&&<div className='absolute inset-0 opacity-0 group-hover:opacity-10 bg-white dark:bg-slate-100 transition-opacity'/>}
+            <Icon size={20}/>
+            <span className='relative'>{label}</span>
+          </NavLink>);
         })}
       </nav>
+      <div className='px-4 py-4 border-t border-gray-200 dark:border-slate-800 text-xs text-gray-500 dark:text-gray-500'>
+        <p className='font-semibold'>Exam Platform v1.0</p>
+      </div>
     </aside>
   );
 };

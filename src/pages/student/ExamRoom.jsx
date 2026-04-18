@@ -29,35 +29,35 @@ const ExamRoom=()=>{
   const isFlagged=currentQuestion&&flagged.includes(currentQuestion.id);
 
   return(
-    <div className='min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col'>
-      <div className='sticky top-0 z-30 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 py-3 shadow-sm'>
-        <div className='flex items-center justify-between max-w-7xl mx-auto'>
-          <div className='flex items-center gap-3'>
-            <button onClick={()=>setShowNav(!showNav)} className='lg:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700'>{showNav?<X size={20}/>:<Menu size={20}/>}</button>
-            <h1 className='font-semibold text-gray-900 dark:text-white truncate max-w-[200px] sm:max-w-none'>{examMeta.title}</h1>
+    <div className='min-h-screen bg-gray-50 dark:bg-slate-950 flex flex-col'>
+      <div className='sticky top-0 z-30 border-b border-gray-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm'>
+        <div className='flex items-center justify-between max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16'>
+          <div className='flex items-center gap-4 min-w-0'>
+            <button onClick={()=>setShowNav(!showNav)} className='lg:hidden p-2 hover:bg-gray-100 dark:hover:bg-slate-800 rounded-lg transition-colors'>{showNav?<X size={20}/>:<Menu size={20}/>}</button>
+            <h1 className='font-semibold text-gray-900 dark:text-white truncate'>{examMeta.title}</h1>
           </div>
-          <div className='flex items-center gap-2 sm:gap-4'>
+          <div className='flex items-center gap-3 sm:gap-4'>
             <Badge variant='info' size='sm'>Q {currentIndex+1}/{totalQuestions}</Badge>
-            <div className='hidden sm:block'><div className='w-32 h-2 bg-gray-200 dark:bg-gray-700 rounded-full'><div className='h-full bg-primary-600 rounded-full transition-all' style={{width:progress+'%'}}/></div></div>
+            <div className='hidden sm:flex w-32 h-2 bg-gray-200 dark:bg-slate-800 rounded-full overflow-hidden'><div className='h-full bg-primary-600 transition-all duration-300' style={{width:progress+'%'}}/></div>
             <Timer seconds={timeRemainingSeconds}/>
-            <Button variant='danger' size='sm' onClick={()=>setShowConfirm(true)} leftIcon={<Send size={14}/>}>Submit</Button>
+            <Button variant='danger' size='sm' onClick={()=>setShowConfirm(true)}>Submit</Button>
           </div>
         </div>
       </div>
       <div className='flex flex-1 max-w-7xl mx-auto w-full'>
-        <div className={'w-64 p-4 flex-shrink-0 '+(showNav?'fixed inset-0 z-20 bg-white dark:bg-gray-900 pt-20 px-4 lg:relative lg:inset-auto lg:z-auto lg:pt-4 lg:bg-transparent':'hidden lg:block')}>
+        <div className={'w-64 p-4 flex-shrink-0 '+(showNav?'fixed inset-0 z-20 bg-white dark:bg-slate-900 pt-20 px-4 lg:relative lg:inset-auto lg:z-auto lg:pt-4':'hidden lg:block')}>
           <QuestionNavPanel questions={questions} answers={answers} flagged={flagged} currentIndex={currentIndex} onSelect={(i)=>{goToQuestion(i);setShowNav(false);}}/>
         </div>
         <div className='flex-1 p-4 sm:p-6 lg:p-8'>
-          <div className='bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 sm:p-8 mb-6'>
-            <div className='flex items-center gap-2 mb-6'>
+          <div className='exp-card-flat p-6 sm:p-8 mb-8 animate-fade-up'>
+            <div className='flex items-center gap-2 mb-6 flex-wrap gap-y-3'>
               <Badge variant={currentQuestion?.type==='MCQ'?'mcq':currentQuestion?.type==='EXPLAIN_ME'?'explain':'code'} size='sm'>{currentQuestion?.type}</Badge>
               {currentQuestion?.difficulty&&<Badge variant={currentQuestion.difficulty.toLowerCase()} size='sm'>{currentQuestion.difficulty}</Badge>}
-              <span className='text-sm text-gray-500 ml-auto'>{currentQuestion?.points||0} pts</span>
+              <span className='text-sm font-semibold text-primary-600 dark:text-primary-400 ml-auto'>{currentQuestion?.points||0} pts</span>
             </div>
             <QuestionRenderer question={currentQuestion} answer={answers[currentQuestion?.id]} onAnswerChange={handleAnswerChange}/>
           </div>
-          <div className='flex items-center justify-between'>
+          <div className='flex items-center justify-between gap-3'>
             <Button variant='secondary' onClick={prevQuestion} disabled={currentIndex===0} leftIcon={<ChevronLeft size={16}/>}>Previous</Button>
             <Button variant={isFlagged?'warning':'ghost'} onClick={()=>currentQuestion&&toggleFlag(currentQuestion.id)} leftIcon={<Flag size={16}/>}>{isFlagged?'Flagged':'Flag'}</Button>
             <Button onClick={nextQuestion} disabled={currentIndex===totalQuestions-1} rightIcon={<ChevronRight size={16}/>}>Next</Button>
